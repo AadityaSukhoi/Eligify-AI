@@ -40,7 +40,7 @@ export function GovHeader({
       <div className="tricolor-bar" aria-hidden="true" />
 
       {/* Main header */}
-      <div className="bg-header-main text-primary-foreground">
+      <div className="bg-header-main text-primary">
         <div className="container flex items-center justify-between h-14 md:h-16">
           {/* Logo & Title */}
           <Link to="/" className="flex items-center gap-3 hover:opacity-90 transition-opacity">
@@ -51,7 +51,7 @@ export function GovHeader({
               <h1 className="text-base md:text-lg font-bold leading-tight">
                 Eligify<span className="text-tricolor-saffron">AI</span>
               </h1>
-              <p className="text-2xs text-primary-foreground/60 hidden sm:block">
+              <p className="text-2xs text-primary/60 hidden sm:block">
                 सरकारी योजना पात्रता
               </p>
             </div>
@@ -62,7 +62,7 @@ export function GovHeader({
             {/* Language Selector */}
             <DropdownMenu>
               <DropdownMenuTrigger asChild>
-                <Button variant="ghost" size="sm" className="text-primary-foreground hover:bg-primary-foreground/10">
+                <Button variant="ghost" size="sm" className="text-primary hover:bg-primary/10">
                   <Globe className="w-4 h-4 mr-2" />
                   <span>{selectedLang.native}</span>
                   <ChevronDown className="w-3 h-3 ml-1" />
@@ -87,7 +87,7 @@ export function GovHeader({
               variant="ghost"
               size="sm"
               onClick={onAccessibilityToggle}
-              className="text-primary-foreground hover:bg-primary-foreground/10"
+              className="text-primary hover:bg-primary/10"
               aria-label="Accessibility options"
             >
               <Accessibility className="w-4 h-4 mr-2" />
@@ -105,7 +105,7 @@ export function GovHeader({
           <Button
             variant="ghost"
             size="icon"
-            className="md:hidden text-primary-foreground hover:bg-primary-foreground/10"
+            className="md:hidden text-primary hover:bg-primary/10"
             onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
             aria-label={mobileMenuOpen ? "Close menu" : "Open menu"}
           >
@@ -115,11 +115,11 @@ export function GovHeader({
 
         {/* Mobile Menu */}
         {mobileMenuOpen && (
-          <div className="md:hidden border-t border-primary-foreground/20 animate-fade-in">
+          <div className="md:hidden border-t border-primary/20 animate-fade-in">
             <div className="container py-4 space-y-3">
               {/* Language Selection */}
               <div className="space-y-2">
-                <p className="text-xs text-primary-foreground/70 uppercase tracking-wide">
+                <p className="text-xs text-primary/70 uppercase tracking-wide">
                   Select Language
                 </p>
                 <div className="grid grid-cols-2 gap-2">
@@ -132,8 +132,8 @@ export function GovHeader({
                       }}
                       className={`px-3 py-2 text-sm rounded text-left transition-colors ${
                         currentLang === lang.code
-                          ? "bg-primary-foreground/20"
-                          : "bg-primary-foreground/5 hover:bg-primary-foreground/10"
+                          ? "bg-primary/20"
+                          : "bg-primary/5 hover:bg-primary/10"
                       }`}
                     >
                       {lang.native}
@@ -143,12 +143,12 @@ export function GovHeader({
               </div>
 
               {/* Other options */}
-              <div className="flex gap-2 pt-2 border-t border-primary-foreground/20">
+              <div className="flex gap-2 pt-2 border-t border-primary/20">
                 <Button
                   variant="ghost"
                   size="sm"
                   onClick={onAccessibilityToggle}
-                  className="flex-1 text-primary-foreground hover:bg-primary-foreground/10"
+                  className="flex-1 text-primary hover:bg-primary/10"
                 >
                   <Accessibility className="w-4 h-4 mr-2" />
                   Accessibility

@@ -67,14 +67,14 @@ export default function Landing() {
               </span>
             </div>
 
-            <h1 className="font-editorial text-4xl md:text-6xl lg:text-7xl leading-tight mb-6">
-              <span className="block text-foreground">
+            <h1 className="font-editorial leading-tight mb-6">
+              <span className="block text-3xl md:text-5xl lg:text-6xl text-foreground">
                 Check your eligibility for government schemes.
               </span>
-              <span className="block text-accent">Eligify AI</span>
+              <span className="block text-6xl md:text-8xl lg:text-9xl font-bold text-accent">Eligify AI</span>
             </h1>
 
-            <p className="text-lg md:text-2xl text-foreground/80 max-w-3xl mx-auto mb-8">
+            <p className="text-base md:text-lg text-foreground/80 max-w-3xl mx-auto mb-8">
               Get clear, source-verified guidance on the schemes you qualify for,
               in your language and without confusing forms.
             </p>

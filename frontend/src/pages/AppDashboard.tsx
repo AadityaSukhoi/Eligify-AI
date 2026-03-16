@@ -32,12 +32,12 @@ const AppDashboard = () => {
 
   return (
     <MainLayout>
-      <section className="bg-primary text-primary-foreground border-b border-border">
+      <section className="bg-primary-foreground text-foreground border-b border-border">
         <div className="container py-5">
           <div className="flex items-center justify-between">
             <div className="flex items-center gap-4">
               <Link to="/">
-                <Button variant="ghost" size="sm" className="text-primary-foreground hover:bg-primary-foreground/10">
+                <Button variant="ghost" size="sm" className="text-foreground hover:bg-foreground/10">
                   <ArrowLeft className="w-4 h-4 mr-1" />
                   Home
                 </Button>
@@ -46,12 +46,12 @@ const AppDashboard = () => {
                 <h2 className="text-lg md:text-xl font-semibold">
                   Eligify <span className="text-accent">AI</span> Assistant
                 </h2>
-                <p className="text-xs text-primary-foreground/70 hidden sm:block">
+                <p className="text-xs text-foreground/70 hidden sm:block">
                   Eligibility intelligence with verified sources.
                 </p>
               </div>
             </div>
-            <div className="hidden md:flex items-center gap-2 text-xs text-primary-foreground/70">
+            <div className="hidden md:flex items-center gap-2 text-xs text-foreground/70">
               <BadgeCheck className="w-4 h-4 text-accent" />
               Verified by official policy sources
             </div>
