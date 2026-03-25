@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Filter, ChevronDown, ChevronUp, X } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
@@ -58,11 +58,29 @@ const socialCategories = [
   "All Categories", "General", "SC", "ST", "OBC", "EWS", "Minority",
 ];
 
-interface SchemeFiltersProps {
-  onApplyFilters: (filters: FilterState) => void;
+export interface CombinedFilters {
+  filters: FilterState;
+  searchQuery: string;
 }
 
-export function SchemeFilters({ onApplyFilters }: SchemeFiltersProps) {
+export interface FilterState {
+  state: string;
+  ministry: string;
+  ageMin: string;
+  ageMax: string;
+  income: string;
+  category: string;
+  gender: string;
+  disability: string;
+}
+
+interface SchemeFiltersProps {
+  onApplyFilters: (data: CombinedFilters) => void;
+  searchQuery?: string;
+  onSearchChange?: (query: string) => void;
+}
+
+export function SchemeFilters({ onApplyFilters, searchQuery: externalSearchQuery = '', onSearchChange }: SchemeFiltersProps) {
   const [isExpanded, setIsExpanded] = useState(false);
   const [filters, setFilters] = useState<FilterState>({
     state: "",
@@ -74,6 +92,7 @@ export function SchemeFilters({ onApplyFilters }: SchemeFiltersProps) {
     gender: "",
     disability: "",
   });
+  const [searchQuery, setSearchQuery] = useState(externalSearchQuery);
 
   const activeFiltersCount = Object.values(filters).filter(Boolean).length;
 
@@ -95,17 +114,25 @@ export function SchemeFilters({ onApplyFilters }: SchemeFiltersProps) {
   };
 
   const handleApply = () => {
-    onApplyFilters(filters);
+    onApplyFilters({filters, searchQuery});
   };
+
+  useEffect(() => {
+    const timeout = setTimeout(() => {
+      onSearchChange?.(searchQuery);
+    }, 300);
+    return () => clearTimeout(timeout);
+  }, [searchQuery, onSearchChange]);
 
   return (
     <div className="bg-card border border-border rounded-lg">
-      {/* Header */}
-      <button
-        onClick={() => setIsExpanded(!isExpanded)}
-        className="w-full flex items-center justify-between p-4 text-left"
-      >
-        <div className="flex items-center gap-3">
+      {/* Header with Search beside */}
+      <div className="flex flex-col sm:flex-row items-start sm:items-center gap-3 p-4 border-b border-border">
+        {/* Filter Toggle Button */}
+        <button
+          onClick={() => setIsExpanded(!isExpanded)}
+          className="flex-1 sm:flex-none flex items-center gap-3"
+        >
           <Filter className="w-5 h-5 text-muted-foreground" />
           <span className="font-medium text-foreground">Advanced Filters</span>
           {activeFiltersCount > 0 && (
@@ -113,13 +140,23 @@ export function SchemeFilters({ onApplyFilters }: SchemeFiltersProps) {
               {activeFiltersCount} active
             </Badge>
           )}
+          {isExpanded ? (
+            <ChevronUp className="w-5 h-5 text-muted-foreground ml-auto sm:ml-2" />
+          ) : (
+            <ChevronDown className="w-5 h-5 text-muted-foreground ml-auto sm:ml-2" />
+          )}
+        </button>
+        
+        {/* Search Input beside */}
+        <div className="flex-1 min-w-0 sm:w-64">
+            <Input
+            placeholder="Search schemes..."
+            value={searchQuery}
+            onChange={(e) => setSearchQuery(e.target.value)}
+            className="h-10"
+          />
         </div>
-        {isExpanded ? (
-          <ChevronUp className="w-5 h-5 text-muted-foreground" />
-        ) : (
-          <ChevronDown className="w-5 h-5 text-muted-foreground" />
-        )}
-      </button>
+      </div>
 
       {/* Filter content */}
       {isExpanded && (
@@ -168,7 +205,7 @@ export function SchemeFilters({ onApplyFilters }: SchemeFiltersProps) {
                   placeholder="Min"
                   value={filters.ageMin}
                   onChange={(e) => updateFilter("ageMin", e.target.value)}
-                  className="h-9"
+                  className="h-9 text-foreground"
                   min={0}
                   max={120}
                 />
@@ -178,7 +215,7 @@ export function SchemeFilters({ onApplyFilters }: SchemeFiltersProps) {
                   placeholder="Max"
                   value={filters.ageMax}
                   onChange={(e) => updateFilter("ageMax", e.target.value)}
-                  className="h-9"
+                  className="h-9 text-foreground"
                   min={0}
                   max={120}
                 />

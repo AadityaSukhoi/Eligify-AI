@@ -249,19 +249,19 @@ export default function Landing() {
         <div className="container">
           <div className="flex flex-col md:flex-row items-center justify-between gap-4">
             <div className="flex items-center gap-3">
-              <span className="text-xl font-semibold font-editorial">Eligify<span className="text-accent"> AI</span></span>
-              <span className="text-primary-foreground/60 text-sm">
+              <span className="text-xl font-semibold font-editorial text-white">Eligify<span className="text-accent"> AI</span></span>
+              <span className="text-white text-sm">
                 | Eligibility Intelligence
               </span>
             </div>
-            <div className="flex items-center gap-6 text-sm text-primary-foreground/70">
-              <a href="#" className="hover:text-primary-foreground">About</a>
-              <a href="#" className="hover:text-primary-foreground">Privacy</a>
-              <a href="#" className="hover:text-primary-foreground">Terms</a>
-              <a href="#" className="hover:text-primary-foreground">Contact</a>
+            <div className="flex items-center gap-6 text-sm text-white">
+              <a href="#" className="hover:text-accent">About</a>
+              <a href="#" className="hover:text-accent">Privacy</a>
+              <a href="#" className="hover:text-accent">Terms</a>
+              <a href="#" className="hover:text-accent">Contact</a>
             </div>
           </div>
-          <div className="mt-6 pt-6 border-t border-primary-foreground/20 text-center text-xs text-primary-foreground/50">
+          <div className="mt-6 pt-6 border-t border-white/20 text-center text-xs text-white">
             <p>© 2026 Eligify AI. All rights reserved. Not an official government portal.</p>
           </div>
         </div>

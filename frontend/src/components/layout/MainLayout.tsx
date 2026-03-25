@@ -1,6 +1,10 @@
-import { ReactNode, useState } from "react";
+import React, { ReactNode, useState } from "react";
 import { GovHeader } from "./GovHeader";
 import { AccessibilityPanel } from "./AccessibilityPanel";
+import { useSearchParams, useLocation } from "react-router-dom";
+import { MessageSquare } from "lucide-react";
+import { Button } from "@/components/ui/button";
+import { Link } from "react-router-dom";
 
 interface MainLayoutProps {
   children: ReactNode;
@@ -9,6 +13,9 @@ interface MainLayoutProps {
 export function MainLayout({ children }: MainLayoutProps) {
   const [showAccessibility, setShowAccessibility] = useState(false);
   const [currentLang, setCurrentLang] = useState("en");
+  const [searchParams] = useSearchParams();
+  const location = useLocation();
+  const isAssistantTab = location.pathname === '/app' && searchParams.get('tab') === 'assistant';
 
   return (
     <div className="min-h-screen flex flex-col bg-background">

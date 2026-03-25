@@ -4,7 +4,8 @@ import { MainLayout } from "@/components/layout/MainLayout";
 import { ChatPanel } from "@/components/chat/ChatPanel";
 import { EligibilityPanel } from "@/components/eligibility/EligibilityPanel";
 import { SchemeCategoryGrid } from "@/components/schemes/SchemeCategoryGrid";
-import { SchemeFilters } from "@/components/schemes/SchemeFilters";
+import { SchemeFilters, FilterState, CombinedFilters } from "@/components/schemes/SchemeFilters";
+import { Badge } from "@/components/ui/badge";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import {
   MessageSquare,
@@ -20,14 +21,16 @@ import { Button } from "@/components/ui/button";
 const AppDashboard = () => {
   const [activeTab, setActiveTab] = useState("assistant");
   const [selectedCategory, setSelectedCategory] = useState<string | null>(null);
+  const [searchQuery, setSearchQuery] = useState(""); // New search state
 
   const handleCategorySelect = (categoryId: string) => {
     setSelectedCategory(categoryId);
     console.log("Selected category:", categoryId);
   };
 
-  const handleFiltersApply = (filters: any) => {
-    console.log("Applied filters:", filters);
+  const handleFiltersApply = ({filters, searchQuery}: CombinedFilters) => {
+    console.log("Applied filters:", filters, "Search:", searchQuery);
+    setSearchQuery(searchQuery);
   };
 
   return (
@@ -117,8 +120,19 @@ const AppDashboard = () => {
           </TabsContent>
 
           <TabsContent value="explore" className="mt-0 space-y-6">
-            <div className="luxe-card p-4 md:p-6">
-              <SchemeFilters onApplyFilters={handleFiltersApply} />
+            <div className="luxe-card p-4 md:p-6 flex flex-col lg:flex-row gap-4 items-start lg:items-center">
+              <div className="flex-1 min-w-0">
+                <SchemeFilters 
+                  onApplyFilters={handleFiltersApply} 
+                  searchQuery={searchQuery}
+                  onSearchChange={(q) => setSearchQuery(q)}
+                />
+              </div>
+              {searchQuery && (
+                <Badge variant="outline" className="text-xs">
+matching categories
+                </Badge>
+              )}
             </div>
 
             <div className="luxe-card p-4 md:p-6">
@@ -126,7 +140,10 @@ const AppDashboard = () => {
                 <h3 className="text-lg font-semibold text-foreground">Browse by Category</h3>
                 <span className="text-xs text-muted-foreground">Curated, official programs</span>
               </div>
-              <SchemeCategoryGrid onCategorySelect={handleCategorySelect} />
+              <SchemeCategoryGrid 
+                onCategorySelect={handleCategorySelect} 
+                searchQuery={searchQuery}
+              />
             </div>
 
             <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
