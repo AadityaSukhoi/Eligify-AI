@@ -33,4 +33,4 @@ jobs:
           DATABASE_URL: "sqlite:///./test.db"
           JWT_SECRET: "ci-test-secret"
           GOOGLE_CLIENT_ID: "test-client-id"
-        run: ./backend/scripts/run_tests.sh
+        run: ./scripts/run_tests.sh

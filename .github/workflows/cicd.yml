@@ -3,12 +3,8 @@ name: CI — Eligify Backend
 on:
   push:
     branches: [main, backend]
-    paths:
-      - "backend/**"
   pull_request:
     branches: [main]
-    paths:
-      - "backend/**"
 
 jobs:
   lint-and-test:
@@ -27,6 +23,9 @@ jobs:
         with:
           python-version: "3.11"
 
+      - name: Install dependencies
+        run: pip install -r requirements.txt
+
       - name: Run CI script
         env:
           PYTHONPATH: "."
@@ -34,5 +33,5 @@ jobs:
           JWT_SECRET: "ci-test-secret"
           GOOGLE_CLIENT_ID: "test-client-id"
         run: |
-          chmod +x backend/scripts/run_tests.sh
-          backend/scripts/run_tests.sh
+          chmod +x scripts/run_tests.sh
+          ./scripts/run_tests.sh
