@@ -1,5 +1,6 @@
 import React, { ReactNode, useState } from "react";
 import { GovHeader } from "./GovHeader";
+import { AuthHeader } from "./AuthHeader";
 import { AccessibilityPanel } from "./AccessibilityPanel";
 import { useSearchParams, useLocation } from "react-router-dom";
 import { MessageSquare } from "lucide-react";
@@ -19,12 +20,13 @@ export function MainLayout({ children }: MainLayoutProps) {
 
   return (
     <div className="min-h-screen flex flex-col bg-background">
-      <GovHeader
-        currentLang={currentLang}
-        onLanguageChange={setCurrentLang}
-        onAccessibilityToggle={() => setShowAccessibility(!showAccessibility)}
-      />
-      
+      <header className="sticky top-0 z-50">
+        <GovHeader
+          currentLang={currentLang}
+          onLanguageChange={setCurrentLang}
+          onAccessibilityToggle={() => setShowAccessibility(!showAccessibility)}
+        />
+      </header>
       {showAccessibility && (
         <AccessibilityPanel onClose={() => setShowAccessibility(false)} />
       )}
@@ -73,3 +75,4 @@ export function MainLayout({ children }: MainLayoutProps) {
     </div>
   );
 }
+

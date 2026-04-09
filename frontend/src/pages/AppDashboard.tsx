@@ -1,5 +1,6 @@
-import { useState } from "react";
-import { Link } from "react-router-dom";
+import { useState, useEffect } from "react";
+import { Link, useNavigate } from "react-router-dom";
+import { useAuth } from "@/contexts/useAuth";
 import { MainLayout } from "@/components/layout/MainLayout";
 import { ChatPanel } from "@/components/chat/ChatPanel";
 import { EligibilityPanel } from "@/components/eligibility/EligibilityPanel";
@@ -19,9 +20,21 @@ import {
 import { Button } from "@/components/ui/button";
 
 const AppDashboard = () => {
+  const { user, loading } = useAuth();
+  const navigate = useNavigate();
   const [activeTab, setActiveTab] = useState("assistant");
   const [selectedCategory, setSelectedCategory] = useState<string | null>(null);
   const [searchQuery, setSearchQuery] = useState(""); // New search state
+  
+  useEffect(() => {
+    if (!loading && !user) {
+      navigate("/login", { replace: true });
+    }
+  }, [user, loading, navigate]);
+
+  if (loading || !user) {
+    return <div className="flex items-center justify-center min-h-screen bg-background">Loading...</div>;
+  }
 
   const handleCategorySelect = (categoryId: string) => {
     setSelectedCategory(categoryId);

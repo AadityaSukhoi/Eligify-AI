@@ -1,4 +1,5 @@
 import type { Config } from "tailwindcss";
+import tailwindcssAnimate from "tailwindcss-animate";
 
 export default {
   darkMode: ["class"],
@@ -92,11 +93,11 @@ export default {
           top: "hsl(var(--header-top))",
           main: "hsl(var(--header-main))",
         },
-      hero: {
-        start: "hsl(var(--hero-gradient-start))",
-        end: "hsl(var(--hero-gradient-end))",
-        accent: "hsl(var(--hero-accent))",
-      },
+        hero: {
+          start: "hsl(var(--hero-gradient-start))",
+          end: "hsl(var(--hero-gradient-end))",
+          accent: "hsl(var(--hero-accent))",
+        },
       },
       borderRadius: {
         lg: "var(--radius)",
@@ -137,5 +138,5 @@ export default {
       },
     },
   },
-  plugins: [require("tailwindcss-animate")],
+  plugins: [tailwindcssAnimate],
 } satisfies Config;

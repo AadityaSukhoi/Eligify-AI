@@ -1,13 +1,15 @@
 import { useState } from "react";
 import { Link } from "react-router-dom";
-import { Globe, Accessibility, User, Menu, X, ChevronDown } from "lucide-react";
+import { Globe, Accessibility, Menu, X, ChevronDown } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import { useAuth } from "@/contexts/useAuth";
 import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
+import { AuthHeader } from "./AuthHeader";
 
 const languages = [
   { code: "en", name: "English", native: "English" },
@@ -17,7 +19,7 @@ const languages = [
   { code: "kn", name: "Kannada", native: "ಕನ್ನಡ" },
   { code: "mr", name: "Marathi", native: "मराठी" },
   { code: "bn", name: "Bengali", native: "বাংলা" },
-  { code: "gu", name: "Gujarati", native: "ગુજরાતી" },
+  { code: "gu", name: "Gujarati", native: "ગુજરાતી" },
 ];
 
 interface GovHeaderProps {
@@ -32,13 +34,14 @@ export function GovHeader({
   onLanguageChange,
 }: GovHeaderProps) {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const { user } = useAuth();
   const selectedLang = languages.find((l) => l.code === currentLang) || languages[0];
 
   return (
     <header className="sticky top-0 z-50">
       {/* Tricolor bar */}
       <div className="tricolor-bar" aria-hidden="true" />
-
+      
       {/* Main header */}
       <div className="bg-header-main text-primary">
         <div className="container flex items-center justify-between h-14 md:h-16">
@@ -94,11 +97,8 @@ export function GovHeader({
               <span className="hidden lg:inline">Accessibility</span>
             </Button>
 
-            {/* Login */}
-            <Button variant="secondary" size="sm" className="ml-2">
-              <User className="w-4 h-4 mr-2" />
-              Login
-            </Button>
+            {/* Auth Header */}
+            <AuthHeader className="ml-2" />
           </div>
 
           {/* Mobile Menu Toggle */}
@@ -153,10 +153,7 @@ export function GovHeader({
                   <Accessibility className="w-4 h-4 mr-2" />
                   Accessibility
                 </Button>
-                <Button variant="secondary" size="sm" className="flex-1">
-                  <User className="w-4 h-4 mr-2" />
-                  Login
-                </Button>
+                <AuthHeader />
               </div>
             </div>
           </div>
@@ -165,3 +162,4 @@ export function GovHeader({
     </header>
   );
 }
+

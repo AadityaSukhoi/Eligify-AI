@@ -12,17 +12,6 @@ import {
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 
-interface FilterState {
-  state: string;
-  ministry: string;
-  ageMin: string;
-  ageMax: string;
-  income: string;
-  category: string;
-  gender: string;
-  disability: string;
-}
-
 const states = [
   "All States", "Andhra Pradesh", "Arunachal Pradesh", "Assam", "Bihar",
   "Chhattisgarh", "Goa", "Gujarat", "Haryana", "Himachal Pradesh",
