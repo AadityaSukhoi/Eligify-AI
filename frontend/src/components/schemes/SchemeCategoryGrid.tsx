@@ -129,31 +129,23 @@ interface SchemeCategoryGridProps {
   searchQuery?: string;
 }
 
-export function SchemeCategoryGrid({ onCategorySelect, searchQuery = '' }: SchemeCategoryGridProps) {
-  const query = searchQuery.toLowerCase().trim();
-  const isExactMatch = (category: SchemeCategory) => category.name.toLowerCase() === query;
-  const isRelatedMatch = (category: SchemeCategory) => 
-    category.name.toLowerCase().includes(query) || 
-    category.description.toLowerCase().includes(query);
-
-  const filteredCategories = categories.filter(category => {
-    if (query === '') return true;
-    if (isExactMatch(category)) return true;
-    return isRelatedMatch(category);
+export function SchemeCategoryGrid({ onCategorySelect, searchQuery = "" }: SchemeCategoryGridProps) {
+  // Filter categories based on search query
+  const filteredCategories = categories.filter((category) => {
+    const searchLower = searchQuery.toLowerCase();
+    return (
+      category.name.toLowerCase().includes(searchLower) ||
+      category.nameHi.includes(searchQuery) ||
+      category.description.toLowerCase().includes(searchLower)
+    );
   });
 
-  const noResults = query !== '' && filteredCategories.length === 0;
-
   return (
-    <div className="space-y-4">
-  {noResults ? (
-        <div className="text-center py-12">
-          <Search className="w-12 h-12 text-muted-foreground mx-auto mb-4" />
-          <h3 className="text-lg font-semibold text-foreground mb-2">No schemes found</h3>
-          <p className="text-muted-foreground mb-4">Try a different search term or check spelling.</p>
-          <Button variant="outline" onClick={() => window.location.reload()}>
-            Clear Search
-          </Button>
+    <div>
+      {filteredCategories.length === 0 ? (
+        <div className="text-center py-8">
+          <p className="text-muted-foreground">No schemes found matching "{searchQuery}"</p>
+          <p className="text-xs text-muted-foreground mt-2">Try searching with different keywords</p>
         </div>
       ) : (
         <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-3">

@@ -1,12 +1,11 @@
 import { useState, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import { useAuth } from "@/contexts/useAuth";
+import { useAuth } from "@/context/AuthContext";
 import { MainLayout } from "@/components/layout/MainLayout";
 import { ChatPanel } from "@/components/chat/ChatPanel";
 import { EligibilityPanel } from "@/components/eligibility/EligibilityPanel";
 import { SchemeCategoryGrid } from "@/components/schemes/SchemeCategoryGrid";
 import { SchemeFilters, FilterState, CombinedFilters } from "@/components/schemes/SchemeFilters";
-import { Badge } from "@/components/ui/badge";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import {
   MessageSquare,
@@ -18,24 +17,16 @@ import {
   BadgeCheck
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { ProtectedFeature } from "@/components/auth/ProtectedFeature";
 
 const AppDashboard = () => {
-  const { user, loading } = useAuth();
+  const { isAuthenticated } = useAuth();
   const navigate = useNavigate();
   const [activeTab, setActiveTab] = useState("assistant");
   const [selectedCategory, setSelectedCategory] = useState<string | null>(null);
-  const [searchQuery, setSearchQuery] = useState(""); // New search state
+  const [searchQuery, setSearchQuery] = useState("");
   
-  useEffect(() => {
-    if (!loading && !user) {
-      navigate("/login", { replace: true });
-    }
-  }, [user, loading, navigate]);
-
-  if (loading || !user) {
-    return <div className="flex items-center justify-center min-h-screen bg-background">Loading...</div>;
-  }
-
   const handleCategorySelect = (categoryId: string) => {
     setSelectedCategory(categoryId);
     console.log("Selected category:", categoryId);
@@ -48,12 +39,12 @@ const AppDashboard = () => {
 
   return (
     <MainLayout>
-      <section className="bg-primary-foreground text-foreground border-b border-border">
+      <section className="bg-background border-b border-border">
         <div className="container py-5">
           <div className="flex items-center justify-between">
             <div className="flex items-center gap-4">
               <Link to="/">
-                <Button variant="ghost" size="sm" className="text-foreground hover:bg-foreground/10">
+                <Button variant="ghost" size="sm">
                   <ArrowLeft className="w-4 h-4 mr-1" />
                   Home
                 </Button>
@@ -62,12 +53,12 @@ const AppDashboard = () => {
                 <h2 className="text-lg md:text-xl font-semibold">
                   Eligify <span className="text-accent">AI</span> Assistant
                 </h2>
-                <p className="text-xs text-foreground/70 hidden sm:block">
+                <p className="text-xs opacity-70 hidden sm:block">
                   Eligibility intelligence with verified sources.
                 </p>
               </div>
             </div>
-            <div className="hidden md:flex items-center gap-2 text-xs text-foreground/70">
+            <div className="hidden md:flex items-center gap-2 text-xs opacity-70">
               <BadgeCheck className="w-4 h-4 text-accent" />
               Verified by official policy sources
             </div>
@@ -77,10 +68,10 @@ const AppDashboard = () => {
 
       <section className="flex-1 container py-5 md:py-8">
         <Tabs value={activeTab} onValueChange={setActiveTab} className="space-y-5">
-          <TabsList className="w-full justify-start bg-card/90 border border-border rounded-2xl h-auto p-2 gap-1 flex-wrap shadow-sm">
+          <TabsList className="w-full justify-start bg-card border border-border rounded-2xl h-auto p-2 gap-1 flex-wrap shadow-sm">
             <TabsTrigger
               value="assistant"
-              className="flex items-center gap-2 data-[state=active]:bg-primary data-[state=active]:text-primary-foreground px-4 py-2 rounded-xl"
+              className="flex items-center gap-2 data-[state=active]:bg-accent data-[state=active]:text-background px-4 py-2 rounded-xl"
             >
               <MessageSquare className="w-4 h-4" />
               <span className="hidden sm:inline">AI Assistant</span>
@@ -88,7 +79,7 @@ const AppDashboard = () => {
             </TabsTrigger>
             <TabsTrigger
               value="explore"
-              className="flex items-center gap-2 data-[state=active]:bg-primary data-[state=active]:text-primary-foreground px-4 py-2 rounded-xl"
+              className="flex items-center gap-2 data-[state=active]:bg-accent data-[state=active]:text-background px-4 py-2 rounded-xl"
             >
               <Search className="w-4 h-4" />
               <span className="hidden sm:inline">Explore Programs</span>
@@ -96,7 +87,7 @@ const AppDashboard = () => {
             </TabsTrigger>
             <TabsTrigger
               value="how-it-works"
-              className="flex items-center gap-2 data-[state=active]:bg-primary data-[state=active]:text-primary-foreground px-4 py-2 rounded-xl"
+              className="flex items-center gap-2 data-[state=active]:bg-accent data-[state=active]:text-background px-4 py-2 rounded-xl"
             >
               <BookOpen className="w-4 h-4" />
               <span className="hidden sm:inline">How It Works</span>
@@ -104,7 +95,7 @@ const AppDashboard = () => {
             </TabsTrigger>
             <TabsTrigger
               value="sources"
-              className="flex items-center gap-2 data-[state=active]:bg-primary data-[state=active]:text-primary-foreground px-4 py-2 rounded-xl"
+              className="flex items-center gap-2 data-[state=active]:bg-accent data-[state=active]:text-background px-4 py-2 rounded-xl"
             >
               <FileText className="w-4 h-4" />
               <span className="hidden sm:inline">Policy Sources</span>
@@ -112,7 +103,7 @@ const AppDashboard = () => {
             </TabsTrigger>
             <TabsTrigger
               value="help"
-              className="flex items-center gap-2 data-[state=active]:bg-primary data-[state=active]:text-primary-foreground px-4 py-2 rounded-xl"
+              className="flex items-center gap-2 data-[state=active]:bg-accent data-[state=active]:text-background px-4 py-2 rounded-xl"
             >
               <HelpCircle className="w-4 h-4" />
               <span className="hidden sm:inline">FAQs</span>
@@ -121,64 +112,77 @@ const AppDashboard = () => {
           </TabsList>
 
           <TabsContent value="assistant" className="mt-0">
-            <div className="grid grid-cols-1 lg:grid-cols-2 gap-5 h-[calc(100vh-300px)] min-h-[520px]">
-              <div className="luxe-card overflow-hidden">
-                <ChatPanel />
-              </div>
+            <ProtectedFeature featureName="AI Assistant">
+              <div className="grid grid-cols-1 lg:grid-cols-2 gap-5">
+                <div className="luxe-card overflow-hidden max-h-[600px] flex flex-col">
+                  <ChatPanel />
+                </div>
 
-              <div className="luxe-card overflow-hidden">
-                <EligibilityPanel />
+                <div className="luxe-card overflow-hidden max-h-[600px] overflow-y-auto">
+                  <EligibilityPanel />
+                </div>
               </div>
-            </div>
+            </ProtectedFeature>
           </TabsContent>
 
           <TabsContent value="explore" className="mt-0 space-y-6">
-            <div className="luxe-card p-4 md:p-6 flex flex-col lg:flex-row gap-4 items-start lg:items-center">
-              <div className="flex-1 min-w-0">
-                <SchemeFilters 
-                  onApplyFilters={handleFiltersApply} 
+            <ProtectedFeature featureName="Scheme Explorer">
+              <div className="luxe-card p-4 md:p-6 overflow-visible">
+                <div className="flex flex-col md:flex-row gap-3 items-end">
+                  {/* Search Bar */}
+                  <div className="relative flex-1">
+                    <Search className="absolute left-3 top-2.5 w-4 h-4 text-muted-foreground" />
+                    <Input
+                      placeholder="Search schemes..."
+                      value={searchQuery}
+                      onChange={(e) => setSearchQuery(e.target.value)}
+                      className="w-full pl-9 pr-3 py-2 text-sm bg-input border border-border rounded-lg text-foreground placeholder:text-muted-foreground"
+                    />
+                  </div>
+                  
+                  {/* Filters */}
+                  <div className="flex-1">
+                    <SchemeFilters onApplyFilters={handleFiltersApply} />
+                  </div>
+                </div>
+              </div>
+
+              <div className="luxe-card p-4 md:p-6">
+                <div className="flex items-center justify-between mb-4">
+                  <div>
+                    <h3 className="text-lg font-semibold text-foreground">
+                      {searchQuery ? `Search Results for "${searchQuery}"` : "Browse by Category"}
+                    </h3>
+                    <span className="text-xs text-muted-foreground">Curated, official programs</span>
+                  </div>
+                </div>
+                <SchemeCategoryGrid 
+                  onCategorySelect={handleCategorySelect}
                   searchQuery={searchQuery}
-                  onSearchChange={(q) => setSearchQuery(q)}
                 />
               </div>
-              {searchQuery && (
-                <Badge variant="outline" className="text-xs">
-matching categories
-                </Badge>
-              )}
-            </div>
 
-            <div className="luxe-card p-4 md:p-6">
-              <div className="flex items-center justify-between mb-4">
-                <h3 className="text-lg font-semibold text-foreground">Browse by Category</h3>
-                <span className="text-xs text-muted-foreground">Curated, official programs</span>
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
+                <div className="luxe-card p-6">
+                  <h4 className="font-semibold text-foreground mb-2">Central Government Programs</h4>
+                  <p className="text-sm text-muted-foreground mb-4">
+                    National programs administered by Government of India ministries.
+                  </p>
+                  <p className="text-3xl font-semibold text-primary">
+                    478 <span className="text-base font-normal text-muted-foreground">Programs</span>
+                  </p>
+                </div>
+                <div className="luxe-card p-6">
+                  <h4 className="font-semibold text-foreground mb-2">State Government Programs</h4>
+                  <p className="text-sm text-muted-foreground mb-4">
+                    State-specific programs. Apply filters to view your state list.
+                  </p>
+                  <p className="text-3xl font-semibold text-primary">
+                    369 <span className="text-base font-normal text-muted-foreground">Programs</span>
+                  </p>
+                </div>
               </div>
-              <SchemeCategoryGrid 
-                onCategorySelect={handleCategorySelect} 
-                searchQuery={searchQuery}
-              />
-            </div>
-
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
-              <div className="luxe-card p-6">
-                <h4 className="font-semibold text-foreground mb-2">Central Government Programs</h4>
-                <p className="text-sm text-muted-foreground mb-4">
-                  National programs administered by Government of India ministries.
-                </p>
-                <p className="text-3xl font-semibold text-primary">
-                  478 <span className="text-base font-normal text-muted-foreground">Programs</span>
-                </p>
-              </div>
-              <div className="luxe-card p-6">
-                <h4 className="font-semibold text-foreground mb-2">State Government Programs</h4>
-                <p className="text-sm text-muted-foreground mb-4">
-                  State-specific programs. Apply filters to view your state list.
-                </p>
-                <p className="text-3xl font-semibold text-primary">
-                  369 <span className="text-base font-normal text-muted-foreground">Programs</span>
-                </p>
-              </div>
-            </div>
+            </ProtectedFeature>
           </TabsContent>
 
           <TabsContent value="how-it-works" className="mt-0">

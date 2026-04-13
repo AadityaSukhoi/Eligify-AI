@@ -24,21 +24,24 @@ export function ChatPanel() {
   const [messages, setMessages] = useState<Message[]>([welcomeMessage]);
   const [isLoading, setIsLoading] = useState(false);
   const messagesEndRef = useRef<HTMLDivElement>(null);
-  const isInitialMount = useRef(true);
+  const intervalRef = useRef<NodeJS.Timeout | null>(null);
 
   const scrollToBottom = () => {
     messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
   };
 
   useEffect(() => {
-    if (isInitialMount.current) {
-      isInitialMount.current = false;
-      return;
-    }
     scrollToBottom();
   }, [messages]);
 
-  const handleSend = (content: string, language: string) => {
+  // Cleanup interval (prevents memory leak)
+  useEffect(() => {
+    return () => {
+      if (intervalRef.current) clearInterval(intervalRef.current);
+    };
+  }, []);
+
+  const handleSend = async (content: string) => {
     const userMessage: Message = {
       id: `user-${Date.now()}`,
       role: "user",
@@ -49,7 +52,11 @@ export function ChatPanel() {
     setMessages((prev) => [...prev, userMessage]);
     setIsLoading(true);
 
-    // Simulate AI streaming response
+    // 🔥 TODO: Replace this simulation with actual API call
+    // Example:
+    // const response = await api.sendMessage({ message: content });
+    // const aiResponseText = response.data;
+
     setTimeout(() => {
       const aiMessage: Message = {
         id: `ai-${Date.now()}`,
@@ -58,9 +65,9 @@ export function ChatPanel() {
         timestamp: new Date(),
         isStreaming: true,
       };
+
       setMessages((prev) => [...prev, aiMessage]);
 
-      // Simulate streaming text
       const fullResponse = `Based on the information you provided, I've analyzed your eligibility across 847 government schemes. Here are the most relevant ones:
 
 I found **3 schemes** where you appear to be **eligible**, **2 schemes** where you are **possibly eligible** (pending verification), and identified relevant schemes in Education, Health, and Financial Aid categories.
@@ -68,7 +75,8 @@ I found **3 schemes** where you appear to be **eligible**, **2 schemes** where y
 Please check the eligibility cards on the right panel for detailed reasoning and official policy sources for each scheme.`;
 
       let currentIndex = 0;
-      const streamInterval = setInterval(() => {
+
+      intervalRef.current = setInterval(() => {
         if (currentIndex < fullResponse.length) {
           setMessages((prev) =>
             prev.map((msg) =>
@@ -81,11 +89,13 @@ Please check the eligibility cards on the right panel for detailed reasoning and
         } else {
           setMessages((prev) =>
             prev.map((msg) =>
-              msg.id === aiMessage.id ? { ...msg, isStreaming: false } : msg
+              msg.id === aiMessage.id
+                ? { ...msg, isStreaming: false }
+                : msg
             )
           );
           setIsLoading(false);
-          clearInterval(streamInterval);
+          if (intervalRef.current) clearInterval(intervalRef.current);
         }
       }, 15);
     }, 500);
@@ -98,10 +108,12 @@ Please check the eligibility cards on the right panel for detailed reasoning and
   return (
     <div className="flex flex-col h-full bg-chat-bg">
       {/* Header */}
-      <div className="flex items-center justify-between px-4 py-3 bg-card border-b border-border">
+      <div className="flex items-center justify-between px-4 py-3 bg-card border-b border-border flex-shrink-0">
         <div className="flex items-center gap-2">
           <MessageSquare className="w-5 h-5 text-primary" />
-          <h2 className="font-semibold text-foreground">AI Eligibility Assistant</h2>
+          <h2 className="font-semibold text-foreground">
+            AI Eligibility Assistant
+          </h2>
         </div>
         <Button
           variant="ghost"
@@ -115,7 +127,7 @@ Please check the eligibility cards on the right panel for detailed reasoning and
       </div>
 
       {/* Messages */}
-      <div className="flex-1 overflow-y-auto p-4 space-y-4 scrollbar-thin">
+      <div className="flex-1 overflow-y-auto p-4 space-y-4 scrollbar-thin min-h-0">
         {messages.map((msg) => (
           <ChatMessage
             key={msg.id}
@@ -130,7 +142,9 @@ Please check the eligibility cards on the right panel for detailed reasoning and
       </div>
 
       {/* Input */}
-      <ChatInput onSend={handleSend} isLoading={isLoading} />
+      <div className="flex-shrink-0">
+        <ChatInput onSend={handleSend} isLoading={isLoading} />
+      </div>
     </div>
   );
 }

@@ -1,6 +1,5 @@
 import React, { ReactNode, useState } from "react";
 import { GovHeader } from "./GovHeader";
-import { AuthHeader } from "./AuthHeader";
 import { AccessibilityPanel } from "./AccessibilityPanel";
 import { useSearchParams, useLocation } from "react-router-dom";
 import { MessageSquare } from "lucide-react";

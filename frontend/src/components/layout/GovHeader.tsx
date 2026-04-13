@@ -1,15 +1,14 @@
 import { useState } from "react";
 import { Link } from "react-router-dom";
-import { Globe, Accessibility, Menu, X, ChevronDown } from "lucide-react";
+import { Globe, Accessibility, Menu, X, ChevronDown, User } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import { useAuth } from "@/contexts/useAuth";
+import { useAuth } from "@/context/AuthContext";
 import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import { AuthHeader } from "./AuthHeader";
 
 const languages = [
   { code: "en", name: "English", native: "English" },
@@ -34,7 +33,7 @@ export function GovHeader({
   onLanguageChange,
 }: GovHeaderProps) {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
-  const { user } = useAuth();
+  const { isAuthenticated } = useAuth();
   const selectedLang = languages.find((l) => l.code === currentLang) || languages[0];
 
   return (
@@ -65,10 +64,10 @@ export function GovHeader({
             {/* Language Selector */}
             <DropdownMenu>
               <DropdownMenuTrigger asChild>
-                <Button variant="ghost" size="sm" className="text-primary hover:bg-primary/10">
-                  <Globe className="w-4 h-4 mr-2" />
+                <Button variant="ghost" size="sm" className="text-primary-foreground hover:bg-primary-foreground/10">
+                  <Globe className="w-4 h-4 mr-2 text-primary-foreground" />
                   <span>{selectedLang.native}</span>
-                  <ChevronDown className="w-3 h-3 ml-1" />
+                  <ChevronDown className="w-3 h-3 ml-1 text-primary-foreground" />
                 </Button>
               </DropdownMenuTrigger>
               <DropdownMenuContent align="end" className="w-48">
@@ -93,12 +92,17 @@ export function GovHeader({
               className="text-primary hover:bg-primary/10"
               aria-label="Accessibility options"
             >
-              <Accessibility className="w-4 h-4 mr-2" />
+              <Accessibility className="w-4 h-4 mr-2 text-primary-foreground" />
               <span className="hidden lg:inline">Accessibility</span>
             </Button>
 
-            {/* Auth Header */}
-            <AuthHeader className="ml-2" />
+            {/* Login */}
+            <Link to="/login">
+              <Button variant="secondary" size="sm" className="ml-2">
+                <User className="w-4 h-4 mr-2 text-background" />
+                Login
+              </Button>
+            </Link>
           </div>
 
           {/* Mobile Menu Toggle */}
@@ -109,7 +113,11 @@ export function GovHeader({
             onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
             aria-label={mobileMenuOpen ? "Close menu" : "Open menu"}
           >
-            {mobileMenuOpen ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
+            {mobileMenuOpen ? (
+              <X className="w-5 h-5 text-primary-foreground" />
+            ) : (
+              <Menu className="w-5 h-5 text-primary-foreground" />
+            )}
           </Button>
         </div>
 
@@ -150,10 +158,15 @@ export function GovHeader({
                   onClick={onAccessibilityToggle}
                   className="flex-1 text-primary hover:bg-primary/10"
                 >
-                  <Accessibility className="w-4 h-4 mr-2" />
+                  <Accessibility className="w-4 h-4 mr-2 text-primary-foreground" />
                   Accessibility
                 </Button>
-                <AuthHeader />
+                <Button variant="secondary" size="sm" className="flex-1">
+                  <Link to="/login" className="flex items-center gap-2 w-full">
+                    <User className="w-4 h-4 text-background" />
+                    Login
+                  </Link>
+                </Button>
               </div>
             </div>
           </div>

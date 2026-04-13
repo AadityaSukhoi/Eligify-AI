@@ -114,49 +114,40 @@ export function SchemeFilters({ onApplyFilters, searchQuery: externalSearchQuery
   }, [searchQuery, onSearchChange]);
 
   return (
-    <div className="bg-card border border-border rounded-lg">
-      {/* Header with Search beside */}
-      <div className="flex flex-col sm:flex-row items-start sm:items-center gap-3 p-4 border-b border-border">
-        {/* Filter Toggle Button */}
+    <div className="relative">
+      <div className="bg-card border border-border rounded-lg">
+        {/* Header */}
         <button
           onClick={() => setIsExpanded(!isExpanded)}
-          className="flex-1 sm:flex-none flex items-center gap-3"
+          className="w-full flex items-center justify-between px-3 py-2 text-left"
         >
-          <Filter className="w-5 h-5 text-muted-foreground" />
-          <span className="font-medium text-foreground">Advanced Filters</span>
-          {activeFiltersCount > 0 && (
-            <Badge variant="secondary" className="text-xs">
-              {activeFiltersCount} active
-            </Badge>
-          )}
+          <div className="flex items-center gap-2">
+            <Filter className="w-4 h-4 text-muted-foreground flex-shrink-0" />
+            <span className="font-medium text-foreground text-sm">Filters</span>
+            {activeFiltersCount > 0 && (
+              <Badge variant="secondary" className="text-xs px-1.5 py-0">
+                {activeFiltersCount}
+              </Badge>
+            )}
+          </div>
           {isExpanded ? (
-            <ChevronUp className="w-5 h-5 text-muted-foreground ml-auto sm:ml-2" />
+            <ChevronUp className="w-4 h-4 text-muted-foreground flex-shrink-0" />
           ) : (
-            <ChevronDown className="w-5 h-5 text-muted-foreground ml-auto sm:ml-2" />
+            <ChevronDown className="w-4 h-4 text-muted-foreground flex-shrink-0" />
           )}
         </button>
-        
-        {/* Search Input beside */}
-        <div className="flex-1 min-w-0 sm:w-64">
-            <Input
-            placeholder="Search schemes..."
-            value={searchQuery}
-            onChange={(e) => setSearchQuery(e.target.value)}
-            className="h-10"
-          />
-        </div>
       </div>
 
-      {/* Filter content */}
+      {/* Filter content - Dropdown below */}
       {isExpanded && (
-        <div className="border-t border-border p-4 animate-fade-in">
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+        <div className="absolute top-full left-0 right-0 mt-1 bg-card border border-border rounded-lg p-3 animate-fade-in shadow-lg z-50" style={{ width: '100%', minWidth: '400px' }}>
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3">
             {/* State */}
-            <div className="space-y-1.5">
-              <Label className="text-xs">State / UT</Label>
+            <div className="space-y-1">
+              <Label className="text-xs text-muted-foreground">State / UT</Label>
               <Select value={filters.state} onValueChange={(v) => updateFilter("state", v)}>
-                <SelectTrigger className="h-9">
-                  <SelectValue placeholder="Select state" />
+                <SelectTrigger className="h-8 text-sm">
+                  <SelectValue placeholder="State" />
                 </SelectTrigger>
                 <SelectContent>
                   {states.map((state) => (
@@ -169,11 +160,11 @@ export function SchemeFilters({ onApplyFilters, searchQuery: externalSearchQuery
             </div>
 
             {/* Ministry */}
-            <div className="space-y-1.5">
-              <Label className="text-xs">Ministry</Label>
+            <div className="space-y-1">
+              <Label className="text-xs text-muted-foreground">Ministry</Label>
               <Select value={filters.ministry} onValueChange={(v) => updateFilter("ministry", v)}>
-                <SelectTrigger className="h-9">
-                  <SelectValue placeholder="Select ministry" />
+                <SelectTrigger className="h-8 text-sm">
+                  <SelectValue placeholder="Ministry" />
                 </SelectTrigger>
                 <SelectContent>
                   {ministries.map((ministry) => (
@@ -186,25 +177,25 @@ export function SchemeFilters({ onApplyFilters, searchQuery: externalSearchQuery
             </div>
 
             {/* Age Range */}
-            <div className="space-y-1.5">
-              <Label className="text-xs">Age Range</Label>
-              <div className="flex items-center gap-2">
+            <div className="space-y-1">
+              <Label className="text-xs text-muted-foreground">Age</Label>
+              <div className="flex items-center gap-1">
                 <Input
                   type="number"
                   placeholder="Min"
                   value={filters.ageMin}
                   onChange={(e) => updateFilter("ageMin", e.target.value)}
-                  className="h-9 text-foreground"
+                  className="h-8 text-sm"
                   min={0}
                   max={120}
                 />
-                <span className="text-muted-foreground">–</span>
+                <span className="text-muted-foreground text-xs">–</span>
                 <Input
                   type="number"
                   placeholder="Max"
                   value={filters.ageMax}
                   onChange={(e) => updateFilter("ageMax", e.target.value)}
-                  className="h-9 text-foreground"
+                  className="h-8 text-sm"
                   min={0}
                   max={120}
                 />
@@ -212,11 +203,11 @@ export function SchemeFilters({ onApplyFilters, searchQuery: externalSearchQuery
             </div>
 
             {/* Income */}
-            <div className="space-y-1.5">
-              <Label className="text-xs">Annual Income</Label>
+            <div className="space-y-1">
+              <Label className="text-xs text-muted-foreground">Income</Label>
               <Select value={filters.income} onValueChange={(v) => updateFilter("income", v)}>
-                <SelectTrigger className="h-9">
-                  <SelectValue placeholder="Select income range" />
+                <SelectTrigger className="h-8 text-sm">
+                  <SelectValue placeholder="Income" />
                 </SelectTrigger>
                 <SelectContent>
                   {incomeRanges.map((range) => (
@@ -229,11 +220,11 @@ export function SchemeFilters({ onApplyFilters, searchQuery: externalSearchQuery
             </div>
 
             {/* Social Category */}
-            <div className="space-y-1.5">
-              <Label className="text-xs">Social Category</Label>
+            <div className="space-y-1">
+              <Label className="text-xs text-muted-foreground">Category</Label>
               <Select value={filters.category} onValueChange={(v) => updateFilter("category", v)}>
-                <SelectTrigger className="h-9">
-                  <SelectValue placeholder="Select category" />
+                <SelectTrigger className="h-8 text-sm">
+                  <SelectValue placeholder="Category" />
                 </SelectTrigger>
                 <SelectContent>
                   {socialCategories.map((cat) => (
@@ -246,11 +237,11 @@ export function SchemeFilters({ onApplyFilters, searchQuery: externalSearchQuery
             </div>
 
             {/* Gender */}
-            <div className="space-y-1.5">
-              <Label className="text-xs">Gender</Label>
+            <div className="space-y-1">
+              <Label className="text-xs text-muted-foreground">Gender</Label>
               <Select value={filters.gender} onValueChange={(v) => updateFilter("gender", v)}>
-                <SelectTrigger className="h-9">
-                  <SelectValue placeholder="Select gender" />
+                <SelectTrigger className="h-8 text-sm">
+                  <SelectValue placeholder="Gender" />
                 </SelectTrigger>
                 <SelectContent>
                   <SelectItem value="all">All</SelectItem>
@@ -262,10 +253,10 @@ export function SchemeFilters({ onApplyFilters, searchQuery: externalSearchQuery
             </div>
 
             {/* Disability */}
-            <div className="space-y-1.5">
-              <Label className="text-xs">Person with Disability</Label>
+            <div className="space-y-1">
+              <Label className="text-xs text-muted-foreground">Disability</Label>
               <Select value={filters.disability} onValueChange={(v) => updateFilter("disability", v)}>
-                <SelectTrigger className="h-9">
+                <SelectTrigger className="h-8 text-sm">
                   <SelectValue placeholder="Select" />
                 </SelectTrigger>
                 <SelectContent>
@@ -278,13 +269,13 @@ export function SchemeFilters({ onApplyFilters, searchQuery: externalSearchQuery
           </div>
 
           {/* Action buttons */}
-          <div className="flex items-center justify-end gap-2 mt-4 pt-4 border-t border-border">
-            <Button variant="ghost" size="sm" onClick={clearFilters} className="text-muted-foreground">
-              <X className="w-4 h-4 mr-1" />
-              Clear all
+          <div className="flex items-center justify-end gap-2 mt-3 pt-3 border-t border-border">
+            <Button variant="ghost" size="sm" onClick={clearFilters} className="text-muted-foreground h-8 text-xs px-2">
+              <X className="w-3 h-3 mr-0.5" />
+              Clear
             </Button>
-            <Button size="sm" onClick={handleApply}>
-              Apply Filters
+            <Button size="sm" onClick={handleApply} className="h-8 text-xs px-3 bg-accent text-background hover:bg-accent/90">
+              Apply
             </Button>
           </div>
         </div>
