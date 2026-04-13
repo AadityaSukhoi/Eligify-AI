@@ -123,35 +123,55 @@ const categories: SchemeCategory[] = [
 
 interface SchemeCategoryGridProps {
   onCategorySelect: (categoryId: string) => void;
+  searchQuery?: string;
 }
 
-export function SchemeCategoryGrid({ onCategorySelect }: SchemeCategoryGridProps) {
+export function SchemeCategoryGrid({ onCategorySelect, searchQuery = "" }: SchemeCategoryGridProps) {
+  // Filter categories based on search query
+  const filteredCategories = categories.filter((category) => {
+    const searchLower = searchQuery.toLowerCase();
+    return (
+      category.name.toLowerCase().includes(searchLower) ||
+      category.nameHi.includes(searchQuery) ||
+      category.description.toLowerCase().includes(searchLower)
+    );
+  });
+
   return (
-    <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-3">
-      {categories.map((category) => {
-        const Icon = category.icon;
-        return (
-          <button
-            key={category.id}
-            onClick={() => onCategorySelect(category.id)}
-            className="scheme-category-card bg-card border border-border rounded-lg p-4 text-left hover:border-primary/30 hover:shadow-md transition-all focus-visible:ring-2 focus-visible:ring-ring"
-          >
-            <div className="flex items-center gap-3 mb-2">
-              <div className="w-10 h-10 rounded-lg bg-secondary flex items-center justify-center">
-                <Icon className="w-5 h-5 text-primary" />
-              </div>
-              <span className="text-xs font-medium text-accent bg-accent/10 px-2 py-0.5 rounded">
-                {category.count} schemes
-              </span>
-            </div>
-            <h3 className="font-semibold text-foreground text-sm">{category.name}</h3>
-            <p className="text-xs text-muted-foreground mt-0.5">{category.nameHi}</p>
-            <p className="text-xs text-muted-foreground mt-2 line-clamp-2">
-              {category.description}
-            </p>
-          </button>
-        );
-      })}
+    <div>
+      {filteredCategories.length === 0 ? (
+        <div className="text-center py-8">
+          <p className="text-muted-foreground">No schemes found matching "{searchQuery}"</p>
+          <p className="text-xs text-muted-foreground mt-2">Try searching with different keywords</p>
+        </div>
+      ) : (
+        <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-3">
+          {filteredCategories.map((category) => {
+            const Icon = category.icon;
+            return (
+              <button
+                key={category.id}
+                onClick={() => onCategorySelect(category.id)}
+                className="scheme-category-card bg-card border border-border rounded-lg p-4 text-left hover:border-primary/30 hover:shadow-md transition-all focus-visible:ring-2 focus-visible:ring-ring"
+              >
+                <div className="flex items-center gap-3 mb-2">
+                  <div className="w-10 h-10 rounded-lg bg-secondary flex items-center justify-center">
+                    <Icon className="w-5 h-5 text-primary" />
+                  </div>
+                  <span className="text-xs font-medium text-accent bg-accent/10 px-2 py-0.5 rounded">
+                    {category.count} schemes
+                  </span>
+                </div>
+                <h3 className="font-semibold text-foreground text-sm">{category.name}</h3>
+                <p className="text-xs text-muted-foreground mt-0.5">{category.nameHi}</p>
+                <p className="text-xs text-muted-foreground mt-2 line-clamp-2">
+                  {category.description}
+                </p>
+              </button>
+            );
+          })}
+        </div>
+      )}
     </div>
   );
 }

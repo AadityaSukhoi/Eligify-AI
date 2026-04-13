@@ -12,66 +12,73 @@
 
 @layer base {
   :root {
-    --background: 36 30% 97%;
-    --foreground: 218 28% 8%;
+    --background: 215 25% 10%;
+    --foreground: 0 0% 98%;
 
-    --card: 0 0% 100%;
-    --card-foreground: 218 28% 8%;
+    --card: 215 22% 15%;
+    --card-foreground: 0 0% 98%;
 
-    --popover: 0 0% 100%;
-    --popover-foreground: 218 28% 8%;
+    --popover: 215 22% 15%;
+    --popover-foreground: 0 0% 98%;
 
-    --primary: 218 28% 8%;
-    --primary-foreground: 0 0% 100%;
+    --primary: 0 0% 98%;
+    --primary-foreground: 215 25% 10%;
 
-    --secondary: 34 26% 92%;
-    --secondary-foreground: 218 28% 8%;
+    --secondary: 215 22% 20%;
+    --secondary-foreground: 0 0% 98%;
 
-    --muted: 34 20% 94%;
-    --muted-foreground: 218 12% 30%;
+    --muted: 215 18% 25%;
+    --muted-foreground: 0 0% 85%;
 
-    --accent: 40 48% 52%;
-    --accent-foreground: 0 0% 100%;
+    --accent: 40 95% 58%;
+    --accent-foreground: 215 25% 10%;
 
-    --success: 156 40% 36%;
+    --success: 156 75% 52%;
     --success-foreground: 0 0% 100%;
 
-    --warning: 38 85% 55%;
-    --warning-foreground: 218 28% 8%;
+    --warning: 38 90% 58%;
+    --warning-foreground: 215 25% 10%;
 
-    --destructive: 0 70% 55%;
+    --destructive: 0 75% 58%;
     --destructive-foreground: 0 0% 100%;
 
-    --border: 218 18% 86%;
-    --input: 218 18% 94%;
-    --ring: 40 48% 52%;
+    --border: 215 20% 25%;
+    --input: 215 22% 18%;
+    --ring: 40 95% 58%;
 
     --radius: 0.9rem;
 
-    --eligible: 156 40% 36%;
-    --possibly-eligible: 38 85% 55%;
-    --not-eligible: 0 70% 55%;
+    --eligible: 156 75% 52%;
+    --possibly-eligible: 38 90% 58%;
+    --not-eligible: 0 75% 58%;
 
-    --sidebar-background: 0 0% 100%;
-    --sidebar-foreground: 218 26% 12%;
-    --sidebar-primary: 40 48% 52%;
-    --sidebar-primary-foreground: 0 0% 100%;
-    --sidebar-accent: 34 26% 92%;
-    --sidebar-accent-foreground: 218 26% 12%;
-    --sidebar-border: 218 18% 86%;
-    --sidebar-ring: 40 48% 52%;
+    --sidebar-background: 215 22% 12%;
+    --sidebar-foreground: 0 0% 98%;
+    --sidebar-primary: 40 95% 58%;
+    --sidebar-primary-foreground: 215 25% 10%;
+    --sidebar-accent: 215 22% 25%;
+    --sidebar-accent-foreground: 0 0% 98%;
+    --sidebar-border: 215 20% 25%;
+    --sidebar-ring: 40 95% 58%;
 
-    --chat-bg: 0 0% 100%;
-    --chat-user: 218 28% 8%;
-    --chat-ai: 34 20% 95%;
+    --chat-bg: 215 22% 15%;
+    --chat-user: 215 22% 20%;
+    --chat-ai: 215 20% 25%;
 
-    --header-top: 40 48% 52%;
-    --header-main: 218 28% 8%;
+    --header-top: 40 95% 58%;
+    --header-main: 215 25% 10%;
 
-    --hero-gradient-start: 218 28% 8%;
-    --hero-gradient-end: 218 24% 16%;
-    --hero-accent: 40 48% 52%;
+    --hero-gradient-start: 215 30% 12%;
+    --hero-gradient-end: 215 25% 18%;
+    --hero-accent: 40 95% 58%;
   }
+}
+
+/* Hide favicon icon */
+link[rel="icon"],
+link[rel="shortcut icon"],
+link[rel="apple-touch-icon"] {
+  display: none !important;
 }
 
 @layer base {
@@ -88,6 +95,61 @@
   body {
     @apply bg-background text-foreground;
     font-feature-settings: "kern" 1, "liga" 1, "ss01" 1;
+  }
+
+  /* Global text color - ensure all text is light for dark theme */
+  p, span, div, li, a, label, button, input, textarea, h1, h2, h3, h4, h5, h6 {
+    color: hsl(var(--foreground)) !important;
+  }
+
+  /* SVG and icon styling - make all icons light */
+  svg, [class*="lucide"] {
+    color: hsl(0 0% 98%) !important;
+    stroke: hsl(0 0% 98%) !important;
+    fill: hsl(0 0% 98%) !important;
+  }
+
+  /* Explicit icon colors in header - white icons */
+  header svg, header [class*="lucide"] {
+    color: hsl(0 0% 98%) !important;
+    stroke: hsl(0 0% 98%) !important;
+    fill: hsl(0 0% 98%) !important;
+  }
+
+  /* Icons in buttons */
+  button svg, button [class*="lucide"] {
+    color: hsl(0 0% 98%) !important;
+    stroke: hsl(0 0% 98%) !important;
+    fill: hsl(0 0% 98%) !important;
+  }
+
+  /* Keep special colors for accent elements */
+  .text-accent {
+    color: hsl(var(--accent)) !important;
+  }
+
+  .text-success {
+    color: hsl(var(--success)) !important;
+  }
+
+  .text-warning {
+    color: hsl(var(--warning)) !important;
+  }
+
+  .text-destructive {
+    color: hsl(var(--destructive)) !important;
+  }
+
+  .text-muted-foreground {
+    color: hsl(var(--muted-foreground)) !important;
+  }
+
+  .text-primary-foreground {
+    color: hsl(var(--primary-foreground)) !important;
+  }
+
+  .text-background {
+    color: hsl(var(--background)) !important;
   }
 
   :focus-visible {
@@ -190,6 +252,35 @@
   .glass-panel {
     background: linear-gradient(135deg, hsl(0 0% 100% / 0.65), hsl(0 0% 100% / 0.35));
     @apply border border-white/40 backdrop-blur-md;
+  }
+
+  /* Dark theme text colors */
+  header, nav, section, div {
+    color: hsl(var(--foreground));
+  }
+
+  header .text-primary-foreground {
+    color: hsl(var(--primary-foreground)) !important;
+  }
+
+  /* Ensure all text is visible in dark theme */
+  h1, h2, h3, h4, h5, h6, p, span, label, button {
+    color: hsl(var(--foreground));
+  }
+
+  /* Keep special accent colors for titles */
+  .text-accent {
+    color: hsl(var(--accent));
+  }
+
+  /* Tab and button text visibility */
+  [role="tablist"] button,
+  [role="tab"] {
+    color: hsl(var(--foreground)) !important;
+  }
+
+  [role="tab"][data-state="active"] {
+    color: hsl(var(--background)) !important;
   }
 
   .cta-shine {

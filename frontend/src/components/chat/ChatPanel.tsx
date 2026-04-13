@@ -23,6 +23,7 @@ const welcomeMessage: Message = {
 export function ChatPanel() {
   const [messages, setMessages] = useState<Message[]>([welcomeMessage]);
   const [isLoading, setIsLoading] = useState(false);
+  const [messageCount, setMessageCount] = useState(1);
   const messagesEndRef = useRef<HTMLDivElement>(null);
 
   const scrollToBottom = () => {
@@ -30,8 +31,12 @@ export function ChatPanel() {
   };
 
   useEffect(() => {
-    scrollToBottom();
-  }, [messages]);
+    // Only scroll when new messages are added
+    if (messages.length > messageCount) {
+      scrollToBottom();
+      setMessageCount(messages.length);
+    }
+  }, [messages, messageCount]);
 
   const handleSend = (content: string, language: string) => {
     const userMessage: Message = {
@@ -93,7 +98,7 @@ Please check the eligibility cards on the right panel for detailed reasoning and
   return (
     <div className="flex flex-col h-full bg-chat-bg">
       {/* Header */}
-      <div className="flex items-center justify-between px-4 py-3 bg-card border-b border-border">
+      <div className="flex items-center justify-between px-4 py-3 bg-card border-b border-border flex-shrink-0">
         <div className="flex items-center gap-2">
           <MessageSquare className="w-5 h-5 text-primary" />
           <h2 className="font-semibold text-foreground">AI Eligibility Assistant</h2>
@@ -110,7 +115,7 @@ Please check the eligibility cards on the right panel for detailed reasoning and
       </div>
 
       {/* Messages */}
-      <div className="flex-1 overflow-y-auto p-4 space-y-4 scrollbar-thin">
+      <div className="flex-1 overflow-y-auto p-4 space-y-4 scrollbar-thin min-h-0">
         {messages.map((msg) => (
           <ChatMessage
             key={msg.id}
@@ -125,7 +130,9 @@ Please check the eligibility cards on the right panel for detailed reasoning and
       </div>
 
       {/* Input */}
-      <ChatInput onSend={handleSend} isLoading={isLoading} />
+      <div className="flex-shrink-0">
+        <ChatInput onSend={handleSend} isLoading={isLoading} />
+      </div>
     </div>
   );
 }
