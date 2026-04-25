@@ -92,14 +92,14 @@ export function GovHeader({
               className="text-primary hover:bg-primary/10"
               aria-label="Accessibility options"
             >
-              <Accessibility className="w-4 h-4 mr-2 text-primary-foreground" />
+              <Accessibility className="w-4 h-4 mr-2 text-primary" />
               <span className="hidden lg:inline">Accessibility</span>
             </Button>
 
             {/* Login */}
             <Link to="/login">
               <Button variant="secondary" size="sm" className="ml-2">
-                <User className="w-4 h-4 mr-2 text-background" />
+                <User className="w-4 h-4 mr-2 text-secondary-foreground" />
                 Login
               </Button>
             </Link>
@@ -114,9 +114,9 @@ export function GovHeader({
             aria-label={mobileMenuOpen ? "Close menu" : "Open menu"}
           >
             {mobileMenuOpen ? (
-              <X className="w-5 h-5 text-primary-foreground" />
+              <X className="w-5 h-5 text-primary" />
             ) : (
-              <Menu className="w-5 h-5 text-primary-foreground" />
+              <Menu className="w-5 h-5 text-primary" />
             )}
           </Button>
         </div>
@@ -158,12 +158,12 @@ export function GovHeader({
                   onClick={onAccessibilityToggle}
                   className="flex-1 text-primary hover:bg-primary/10"
                 >
-                  <Accessibility className="w-4 h-4 mr-2 text-primary-foreground" />
+                  <Accessibility className="w-4 h-4 mr-2 text-primary" />
                   Accessibility
                 </Button>
                 <Button variant="secondary" size="sm" className="flex-1">
-                  <Link to="/login" className="flex items-center gap-2 w-full">
-                    <User className="w-4 h-4 text-background" />
+                  <Link to="/login" className="flex items-center gap-2 w-full text-secondary-foreground">
+                    <User className="w-4 h-4 text-secondary-foreground" />
                     Login
                   </Link>
                 </Button>

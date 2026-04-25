@@ -270,12 +270,12 @@ export function SchemeFilters({ onApplyFilters, searchQuery: externalSearchQuery
 
           {/* Action buttons */}
           <div className="flex items-center justify-end gap-2 mt-3 pt-3 border-t border-border">
-            <Button variant="ghost" size="sm" onClick={clearFilters} className="text-muted-foreground h-8 text-xs px-2">
-              <X className="w-3 h-3 mr-0.5" />
-              Clear
-            </Button>
-            <Button size="sm" onClick={handleApply} className="h-8 text-xs px-3 bg-accent text-background hover:bg-accent/90">
-              Apply
+          <Button variant="ghost" size="sm" onClick={clearFilters} className="text-muted-foreground h-8 text-xs px-2">
+            <X className="w-3 h-3 mr-0.5 text-muted-foreground" />
+            Clear
+          </Button>
+          <Button size="sm" onClick={handleApply} className="h-8 text-xs px-3 bg-accent text-background hover:bg-accent/90">
+            Apply
             </Button>
           </div>
         </div>

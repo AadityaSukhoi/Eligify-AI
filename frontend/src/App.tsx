@@ -4,6 +4,7 @@ import { TooltipProvider } from "@/components/ui/tooltip";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { AuthProvider } from "@/context/AuthContext";
+import { RequireAuth } from "@/components/auth/RequireAuth";
 import Landing from "./pages/Landing";
 import AppDashboard from "./pages/AppDashboard";
 import Login from "./pages/Login";
@@ -21,7 +22,14 @@ const App = () => (
         <BrowserRouter>
           <Routes>
             <Route path="/" element={<Landing />} />
-            <Route path="/app" element={<AppDashboard />} />
+            <Route
+              path="/app"
+              element={
+                <RequireAuth>
+                  <AppDashboard />
+                </RequireAuth>
+              }
+            />
             <Route path="/login" element={<Login />} />
             <Route path="/register" element={<Register />} />
             {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}

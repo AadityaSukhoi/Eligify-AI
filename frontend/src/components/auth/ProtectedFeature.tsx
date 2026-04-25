@@ -45,14 +45,14 @@ export function ProtectedFeature({ featureName, children, className = "" }: Prot
               className="flex-1 font-semibold"
             >
               Login
-              <ArrowRight className="w-4 h-4 ml-1" />
+              <ArrowRight className="w-4 h-4 ml-1 text-primary-foreground" />
             </Button>
             <Button 
               onClick={() => navigate("/register")} 
               variant="outline"
-              className="flex-1"
+              className="flex-1 text-foreground"
             >
-              <UserPlus className="w-4 h-4 mr-1" />
+              <UserPlus className="w-4 h-4 mr-1 text-foreground" />
               Sign Up
             </Button>
             <Button 
@@ -60,7 +60,7 @@ export function ProtectedFeature({ featureName, children, className = "" }: Prot
               variant="ghost"
               className="flex-1 text-muted-foreground hover:text-foreground border border-border"
             >
-              <Eye className="w-4 h-4 mr-1" />
+              <Eye className="w-4 h-4 mr-1 text-muted-foreground" />
               Continue as Guest
             </Button>
           </div>

@@ -183,7 +183,7 @@ export async function verifyCSRFToken(token: string): Promise<boolean> {
 
     return response.ok;
   } catch (error) {
-    console.warn("CSRF verification failed gracefully:", error);
-    return true; // Allow to continue even if CSRF verification fails
+    console.warn("CSRF verification failed:", error);
+    return false; // Fail closed: deny access if verification cannot be completed
   }
 }

@@ -87,7 +87,7 @@ export function ChatInput({ onSend, isLoading = false, placeholder }: ChatInputP
           className={`shrink-0 ${isRecording ? "voice-pulse" : ""}`}
           aria-label={isRecording ? "Stop recording" : "Start voice input"}
         >
-          {isRecording ? <MicOff className="w-4 h-4" /> : <Mic className="w-4 h-4" />}
+          {isRecording ? <MicOff className="w-4 h-4 text-destructive-foreground" /> : <Mic className="w-4 h-4 text-foreground" />}
         </Button>
 
         {/* Text input */}
@@ -111,7 +111,7 @@ export function ChatInput({ onSend, isLoading = false, placeholder }: ChatInputP
           className="shrink-0"
           aria-label="Send message"
         >
-          <Send className="w-4 h-4" />
+          <Send className="w-4 h-4 text-primary-foreground" />
         </Button>
       </div>
 

@@ -12,6 +12,8 @@ import {
   BadgeCheck
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import { AuthGateModal } from "@/components/auth/AuthGateModal";
+import { useState } from "react";
 
 const features = [
   {
@@ -54,8 +56,18 @@ const stats = [
 ];
 
 export default function Landing() {
+  const [authModalOpen, setAuthModalOpen] = useState(false);
+  const [redirectPath, setRedirectPath] = useState("/app");
+
+  const openAuthGate = (path: string) => {
+    setRedirectPath(path);
+    setAuthModalOpen(true);
+  };
+
   return (
     <div className="min-h-screen">
+      <AuthGateModal open={authModalOpen} onOpenChange={setAuthModalOpen} redirectPath={redirectPath} />
+
       <div className="tricolor-bar" />
 
       <section className="pattern-overlay hero-gradient relative overflow-hidden text-foreground">
@@ -80,18 +92,23 @@ export default function Landing() {
             </p>
 
             <div className="flex flex-col sm:flex-row items-center justify-center gap-4 mb-12">
-              <Link to="/app">
-                <Button size="lg" className="bg-accent text-accent-foreground hover:bg-accent/90 font-semibold px-8 h-12 text-base glow-accent cta-shine">
-                  Check Eligibility
-                  <ArrowRight className="w-5 h-5 ml-2" />
-                </Button>
-              </Link>
-              <Link to="/app?tab=explore">
-                <Button size="lg" variant="outline" className="border-foreground/30 text-foreground hover:bg-foreground/5 font-medium px-8 h-12 text-base">
-                  <Search className="w-5 h-5 mr-2" />
-                  Explore Programs
-                </Button>
-              </Link>
+              <Button
+                size="lg"
+                className="bg-accent text-accent-foreground hover:bg-accent/90 font-semibold px-8 h-12 text-base glow-accent cta-shine"
+                onClick={() => openAuthGate("/app")}
+              >
+                Check Eligibility
+                <ArrowRight className="w-5 h-5 ml-2 text-accent-foreground" />
+              </Button>
+              <Button
+                size="lg"
+                variant="outline"
+                className="border-foreground/30 text-foreground hover:bg-foreground/5 font-medium px-8 h-12 text-base"
+                onClick={() => openAuthGate("/app?tab=explore")}
+              >
+                <Search className="w-5 h-5 mr-2 text-foreground" />
+                Explore Programs
+              </Button>
             </div>
 
             <div className="grid grid-cols-2 md:grid-cols-4 gap-4 max-w-3xl mx-auto">
@@ -184,12 +201,14 @@ export default function Landing() {
           </div>
 
           <div className="text-center mt-12">
-            <Link to="/app">
-              <Button size="lg" className="font-semibold px-8">
-                Start Your Check
-                <ArrowRight className="w-5 h-5 ml-2" />
-              </Button>
-            </Link>
+            <Button
+              size="lg"
+              className="font-semibold px-8"
+              onClick={() => openAuthGate("/app")}
+            >
+              Start Your Check
+              <ArrowRight className="w-5 h-5 ml-2 text-primary-foreground" />
+            </Button>
           </div>
         </div>
       </section>

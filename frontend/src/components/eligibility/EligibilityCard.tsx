@@ -91,12 +91,12 @@ export function EligibilityCard({
         >
           {isExpanded ? (
             <>
-              <ChevronUp className="w-4 h-4 mr-1" />
+              <ChevronUp className="w-4 h-4 mr-1 text-muted-foreground" />
               Hide reasoning & sources
             </>
           ) : (
             <>
-              <ChevronDown className="w-4 h-4 mr-1" />
+              <ChevronDown className="w-4 h-4 mr-1 text-muted-foreground" />
               View reasoning & sources
             </>
           )}

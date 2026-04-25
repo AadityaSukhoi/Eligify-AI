@@ -44,8 +44,8 @@ const AppDashboard = () => {
           <div className="flex items-center justify-between">
             <div className="flex items-center gap-4">
               <Link to="/">
-                <Button variant="ghost" size="sm">
-                  <ArrowLeft className="w-4 h-4 mr-1" />
+                <Button variant="ghost" size="sm" className="text-foreground">
+                  <ArrowLeft className="w-4 h-4 mr-1 text-foreground" />
                   Home
                 </Button>
               </Link>
