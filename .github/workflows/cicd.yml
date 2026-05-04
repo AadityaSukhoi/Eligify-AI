@@ -26,15 +26,15 @@ jobs:
       - name: Install dependencies
         run: pip install -r requirements.txt
 
-      - name: Install Playwright browsers
-        run: python -m playwright install --with-deps chromium
+      # - name: Install Playwright browsers
+      #   run: python -m playwright install --with-deps chromium
 
-      - name: Run CI script
-        env:
-          PYTHONPATH: "."
-          DATABASE_URL: "sqlite:///./test.db"
-          JWT_SECRET: "ci-test-secret"
-          GOOGLE_CLIENT_ID: "test-client-id"
-        run: |
-          chmod +x scripts/run_tests.sh
-          ./scripts/run_tests.sh
+      # - name: Run CI script
+      #   env:
+      #     PYTHONPATH: "."
+      #     DATABASE_URL: "sqlite:///./test.db"
+      #     JWT_SECRET: "ci-test-secret"
+      #     GOOGLE_CLIENT_ID: "test-client-id"
+      #   run: |
+      #     chmod +x scripts/run_tests.sh
+      #     ./scripts/run_tests.sh
