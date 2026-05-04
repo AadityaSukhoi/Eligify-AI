@@ -22,7 +22,7 @@ echo "🔍 Running lint (ruff)..."
 ruff check app/ || echo "Ruff found issues (non-blocking)"
 
 # -------------------------------
-# Import check (VERY IMPORTANT)
+# Import check
 # -------------------------------
 echo "Checking if app loads properly..."
 
@@ -36,7 +36,7 @@ except Exception as e:
 EOF
 
 # -------------------------------
-# Run tests (if exist)
+# Run tests
 # -------------------------------
 echo "Running tests..."
 
