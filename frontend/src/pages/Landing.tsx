@@ -98,7 +98,7 @@ export default function Landing() {
                 onClick={() => openAuthGate("/app")}
               >
                 Check Eligibility
-                <ArrowRight className="w-5 h-5 ml-2 text-accent-foreground" />
+                <ArrowRight className="w-5 h-5 ml-2 !text-black" />
               </Button>
               <Button
                 size="lg"
@@ -202,13 +202,12 @@ export default function Landing() {
 
           <div className="text-center mt-12">
             <Button
-              size="lg"
-              className="font-semibold px-8"
-              onClick={() => openAuthGate("/app")}
-            >
-              Start Your Check
-              <ArrowRight className="w-5 h-5 ml-2 text-primary-foreground" />
-            </Button>
+  size="lg"
+  className="bg-accent text-black hover:bg-accent/90 font-semibold px-8 h-12 text-base glow-accent cta-shine"
+>
+  Start Your Check
+  <ArrowRight className="w-5 h-5 ml-2" /> 
+</Button>
           </div>
         </div>
       </section>

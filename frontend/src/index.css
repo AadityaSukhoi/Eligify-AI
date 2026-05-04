@@ -366,4 +366,43 @@ link[rel="apple-touch-icon"] {
     background-color: hsl(var(--border));
     border-radius: 3px;
   }
+
+  /* Accessibility utilities */
+  html.text-large {
+    font-size: 1.125rem;
+  }
+
+  html.text-larger {
+    font-size: 1.25rem;
+  }
+
+  html.high-contrast {
+    --background: 0 0% 100%;
+    --foreground: 0 0% 10%;
+    --card: 0 0% 98%;
+    --card-foreground: 0 0% 10%;
+    --popover: 0 0% 100%;
+    --popover-foreground: 0 0% 10%;
+    --primary: 210 40% 98%;
+    --primary-foreground: 222.2 84% 4.9%;
+    --secondary: 210 40% 96%;
+    --secondary-foreground: 222.2 84% 4.9%;
+    --muted: 210 40% 96%;
+    --muted-foreground: 215.4 16.3% 46.9%;
+    --accent: 210 40% 96%;
+    --accent-foreground: 222.2 84% 4.9%;
+    --destructive: 0 84.2% 60.2%;
+    --destructive-foreground: 210 40% 98%;
+    --border: 214.3 31.8% 91.4%;
+    --input: 214.3 31.8% 91.4%;
+    --ring: 222.2 84% 4.9%;
+    filter: contrast(1.4) !important;
+  }
+
+  html.high-contrast svg,
+  html.high-contrast [class*="lucide"] {
+    stroke: hsl(222.2 84% 4.9%) !important;
+    color: hsl(222.2 84% 4.9%) !important;
+  }
 }
+
