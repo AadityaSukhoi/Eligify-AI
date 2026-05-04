@@ -23,14 +23,24 @@ const welcomeMessage: Message = {
 export function ChatPanel() {
   const [messages, setMessages] = useState<Message[]>([welcomeMessage]);
   const [isLoading, setIsLoading] = useState(false);
+  const messagesContainerRef = useRef<HTMLDivElement>(null);
   const messagesEndRef = useRef<HTMLDivElement>(null);
   const intervalRef = useRef<NodeJS.Timeout | null>(null);
+  const hasMounted = useRef(false);
 
   const scrollToBottom = () => {
-    messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
+    // Scroll only the messages container, not the entire page
+    if (messagesContainerRef.current) {
+      messagesContainerRef.current.scrollTop = messagesContainerRef.current.scrollHeight;
+    }
   };
 
   useEffect(() => {
+    // Skip auto-scroll on initial mount so opening the chat doesn't jump the page
+    if (!hasMounted.current) {
+      hasMounted.current = true;
+      return;
+    }
     scrollToBottom();
   }, [messages]);
 
@@ -121,13 +131,16 @@ Please check the eligibility cards on the right panel for detailed reasoning and
           onClick={clearChat}
           className="text-muted-foreground hover:text-foreground"
         >
-          <Trash2 className="w-4 h-4 mr-1" />
+          <Trash2 className="w-4 h-4 mr-1 text-muted-foreground hover:text-foreground" />
           Clear
         </Button>
       </div>
 
       {/* Messages */}
-      <div className="flex-1 overflow-y-auto p-4 space-y-4 scrollbar-thin min-h-0">
+      <div
+        ref={messagesContainerRef}
+        className="flex-1 overflow-y-auto p-4 space-y-4 scrollbar-thin min-h-0"
+      >
         {messages.map((msg) => (
           <ChatMessage
             key={msg.id}

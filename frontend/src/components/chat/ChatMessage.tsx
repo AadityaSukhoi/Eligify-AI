@@ -1,5 +1,6 @@
 import { Volume2, VolumeX } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import { SafeHtml } from "@/components/ui/SafeHtml";
 import { useState } from "react";
 
 export type MessageRole = "user" | "assistant";
@@ -39,10 +40,12 @@ export function ChatMessage({
             : "bg-chat-ai border border-border rounded-t-lg rounded-br-lg"
         } px-4 py-3`}
       >
-        {/* Message content */}
-        <div className={`text-sm leading-relaxed ${isStreaming ? "streaming-cursor" : ""}`}>
-          {content}
-        </div>
+        {/* Message content — sanitized to prevent XSS */}
+        <SafeHtml
+          html={content}
+          className={`text-sm leading-relaxed ${isStreaming ? "streaming-cursor" : ""}`}
+          tag="div"
+        />
 
         {/* Footer */}
         <div
@@ -70,9 +73,9 @@ export function ChatMessage({
               aria-label={isPlaying ? "Stop audio" : "Play audio"}
             >
               {isPlaying ? (
-                <VolumeX className="w-3 h-3 mr-1" />
+                <VolumeX className="w-3 h-3 mr-1 text-foreground" />
               ) : (
-                <Volume2 className="w-3 h-3 mr-1" />
+                <Volume2 className="w-3 h-3 mr-1 text-foreground" />
               )}
               <span className="text-xs">{isPlaying ? "Stop" : "Listen"}</span>
             </Button>

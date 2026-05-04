@@ -192,9 +192,9 @@ export default function Register() {
                   className="absolute right-3 top-3 text-muted-foreground hover:text-foreground"
                 >
                   {showPassword ? (
-                    <EyeOff className="w-4 h-4" />
+                    <EyeOff className="w-4 h-4 text-muted-foreground" />
                   ) : (
-                    <Eye className="w-4 h-4" />
+                    <Eye className="w-4 h-4 text-muted-foreground" />
                   )}
                 </button>
               </div>
@@ -224,9 +224,9 @@ export default function Register() {
                   className="absolute right-3 top-3 text-muted-foreground hover:text-foreground"
                 >
                   {showConfirmPassword ? (
-                    <EyeOff className="w-4 h-4" />
+                    <EyeOff className="w-4 h-4 text-muted-foreground" />
                   ) : (
-                    <Eye className="w-4 h-4" />
+                    <Eye className="w-4 h-4 text-muted-foreground" />
                   )}
                 </button>
               </div>

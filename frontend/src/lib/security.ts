@@ -51,7 +51,7 @@ class CSRFTokenManager {
   /**
    * Fetch CSRF token from the server
    */
-  async fetchCSRFToken(): Promise<string> {
+  async fetchCSRFToken(): Promise<string | null> {
     if (this.token) {
       return this.token;
     }
@@ -71,7 +71,7 @@ class CSRFTokenManager {
 
       try {
         const data = await response.json();
-        this.token = data.token;
+        this.token = data.token ?? null;
         return this.token;
       } catch (parseError) {
         console.warn("Could not parse CSRF token response as JSON", parseError);
@@ -80,8 +80,7 @@ class CSRFTokenManager {
           this.token = cookieToken;
           return this.token;
         }
-        this.token = `temp-${Date.now()}-${Math.random().toString(36).substr(2, 9)}`;
-        return this.token;
+        return null;
       }
     } catch (error) {
       console.warn("Failed to fetch CSRF token:", error);
@@ -90,8 +89,7 @@ class CSRFTokenManager {
         this.token = cookieToken;
         return this.token;
       }
-      this.token = `temp-${Date.now()}-${Math.random().toString(36).substr(2, 9)}`;
-      return this.token;
+      return null;
     }
   }
 
@@ -146,8 +144,9 @@ export async function secureFetch(
 
   const headers = new Headers(options?.headers || {});
 
-  // Add CSRF token for non-GET requests
+  // Add CSRF token for non-GET requests only if we have a valid token
   if (
+    csrfToken &&
     options?.method &&
     ["POST", "PUT", "DELETE", "PATCH"].includes(options.method.toUpperCase())
   ) {

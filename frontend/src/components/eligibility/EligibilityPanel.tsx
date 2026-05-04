@@ -99,13 +99,13 @@ export function EligibilityPanel() {
     <div className="flex flex-col h-full bg-background">
       {/* Header */}
       <div className="px-4 py-3 bg-card border-b border-border">
-        <div className="flex items-center justify-between mb-3">
-          <h2 className="font-semibold text-foreground">Eligibility Analysis</h2>
-          <Button variant="outline" size="sm">
-            <Volume2 className="w-4 h-4 mr-1" />
-            Read Aloud
-          </Button>
-        </div>
+          <div className="flex items-center justify-between mb-3">
+            <h2 className="font-semibold text-foreground">Eligibility Analysis</h2>
+            <Button variant="outline" size="sm" className="text-foreground">
+              <Volume2 className="w-4 h-4 mr-1 text-foreground" />
+              Read Aloud
+            </Button>
+          </div>
 
         {/* Summary stats */}
         <div className="flex items-center gap-4 text-sm">

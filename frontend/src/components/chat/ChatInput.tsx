@@ -87,7 +87,7 @@ export function ChatInput({ onSend, isLoading = false, placeholder }: ChatInputP
           className={`shrink-0 ${isRecording ? "voice-pulse" : ""}`}
           aria-label={isRecording ? "Stop recording" : "Start voice input"}
         >
-          {isRecording ? <MicOff className="w-4 h-4" /> : <Mic className="w-4 h-4" />}
+          {isRecording ? <MicOff className="w-4 h-4 text-destructive-foreground" /> : <Mic className="w-4 h-4 text-foreground" />}
         </Button>
 
         {/* Text input */}
@@ -106,13 +106,13 @@ export function ChatInput({ onSend, isLoading = false, placeholder }: ChatInputP
 
         {/* Send button */}
         <Button
-          onClick={handleSubmit}
-          disabled={!message.trim() || isLoading}
-          className="shrink-0"
-          aria-label="Send message"
-        >
-          <Send className="w-4 h-4" />
-        </Button>
+  onClick={handleSubmit}
+  disabled={!message.trim() || isLoading}
+  variant="secondary"
+  className="shrink-0"
+>
+  <Send className="w-4 h-4 text-black" />
+</Button>
       </div>
 
       {/* Helper text */}
