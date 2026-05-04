@@ -1,0 +1,11 @@
+schemes:
+  - name: PM-KISAN
+    max_income: 200000
+    occupation: farmer
+    eligible_categories: ["income-based"]
+    benefits: "\u20B96000 per year"
+
+  - name: Ayushman Bharat
+    max_income: 200000
+    eligible_categories: ["income-based", "bpl"]
+    benefits: "\u20B95 lakh health insurance"
