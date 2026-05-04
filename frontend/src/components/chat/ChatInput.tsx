@@ -106,13 +106,13 @@ export function ChatInput({ onSend, isLoading = false, placeholder }: ChatInputP
 
         {/* Send button */}
         <Button
-          onClick={handleSubmit}
-          disabled={!message.trim() || isLoading}
-          className="shrink-0"
-          aria-label="Send message"
-        >
-          <Send className="w-4 h-4 text-primary-foreground" />
-        </Button>
+  onClick={handleSubmit}
+  disabled={!message.trim() || isLoading}
+  variant="secondary"
+  className="shrink-0"
+>
+  <Send className="w-4 h-4 text-black" />
+</Button>
       </div>
 
       {/* Helper text */}
